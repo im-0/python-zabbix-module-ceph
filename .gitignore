@@ -1,0 +1,8 @@
+*.pyc
+__pycache__
+*~
+/.idea
+/AUTHORS
+/ChangeLog
+/dist
+/*.egg-info
