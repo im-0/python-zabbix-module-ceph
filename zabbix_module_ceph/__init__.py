@@ -34,16 +34,16 @@ _MAP_STATUS = {
         'path': ('health', 'overall_status'),
     },
     'mds.in': {
-        'path': ('mdsmap', 'in'),
+        'path': (('mdsmap', 'fsmap'), 'in'),
     },
     'mds.max': {
-        'path': ('mdsmap', 'max'),
+        'path': (('mdsmap', 'fsmap'), 'max'),
     },
     'mds.up': {
-        'path': ('mdsmap', 'up'),
+        'path': (('mdsmap', 'fsmap'), 'up'),
     },
     'mds.up_standby': {
-        'path': ('mdsmap', 'up:standby'),
+        'path': (('mdsmap', 'fsmap'), 'up:standby'),
     },
     'mon.num': {
         'path': ('monmap', 'mons'),
@@ -85,7 +85,15 @@ _log = logging.getLogger(__name__)
 
 def _get_value_from_tree(tree_dict, path):
     if path:
-        return _get_value_from_tree(tree_dict[path[0]], path[1:])
+        if isinstance(path[0], (list, tuple)):
+            for path_variant in path[0]:
+                if path_variant in tree_dict:
+                    return _get_value_from_tree(
+                        tree_dict[path_variant], path[1:])
+            raise RuntimeError(
+                'Path %r not found in tree %r' % (path[0], tree_dict))
+        else:
+            return _get_value_from_tree(tree_dict[path[0]], path[1:])
     else:
         return tree_dict
 
