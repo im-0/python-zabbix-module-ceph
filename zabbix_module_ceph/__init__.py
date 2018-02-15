@@ -31,7 +31,8 @@ _MAP_STATUS = {
         'path': ('fsid', ),
     },
     'health.overall': {
-        'path': ('health', 'overall_status'),
+        # 'status' is used since 'luminous' releasem so it should go first.
+        'path': ('health', ('status', 'overall_status')),
     },
     'mds.in': {
         'path': (('mdsmap', 'fsmap'), 'in'),
