@@ -1,0 +1,9 @@
+/var/log/python-zabbix-modules/module.ceph.log {
+        weekly
+        missingok
+        rotate 5
+        compress
+        delaycompress
+        copytruncate
+        su root zabbix
+}
